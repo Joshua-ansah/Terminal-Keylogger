@@ -1,7 +1,7 @@
 
 # LINUX TERMINAL KEY-LOGGER -  PYTHON 
 
-A python script that captures all commands entered into the linux terminal with usernames, hostnames, time and dates.
+A python script that captures all commands entered into the Linux terminal with usernames, host-names, time and dates.
 
 
 
@@ -11,18 +11,18 @@ A python script that captures all commands entered into the linux terminal with 
 This script works by capturing user input commands into the terminal then archives and encrypts the archive into a singular file. 
 
 ### Purpose
-Assume your company has somany linux admin staff that work on a large number of servers. Mistakenly one linux admin deletes or misconfigures a file from the terminal which cuses a server to go down. In order to know which misconfiguration happend, it would be very useful to have logs of all commands that were input into the linux terminal. Thus enhances the troubleshooting process to move faster. 
+Assume your company has so many Linux admin staff that work on a large number of servers. Mistakenly one Linux admin deletes or misconfigures a file from the terminal which causes a server to go down. In order to know which misconfiguration happened, it would be very useful to have logs of all commands that were input into the Linux terminal. Thus enhances the troubleshooting process to move faster. 
 
 The script is currently capable of capturing regular user commands but if you also want to capture `root` user commands, you should also install the files in the  `/usr/bin/` directory. 
 
-This script is currently built for only linux servers and systems, but can however be modified to suit Windows environments.
+This script is currently built for only Linux servers and systems, but can however be modified to suit Windows environments.
 
 
 
 
 ## Dependencies
 
-To run this script, you will need to have `Python3` installed. Python3 pretty-much comes pre-installed on most linux systems. 
+To run this script, you will need to have `Python3` installed. Python3 pretty-much comes pre-installed on most Linux systems. 
 
 Just in case you don't have it installed:
 
@@ -49,7 +49,7 @@ Just in case you don't have it installed:
   git clone https://github.com/Joshua-ansah/Terminal-Keylogger.git
 ```
 
-#### 3. Modify your `.bashrc` file to excute the script when the terminal closes. Do the same for `/root/.bashrc` file for root user key-logging
+#### 3. Modify your `.bashrc` file to execute the script when the terminal closes. Do the same for `/root/.bashrc` file for root user key-logging
 ```bash
   export PROMPT_COMMAND="python3 ~/.terminal-keylogger/.terminal-keylogger.py;$PROMPT_COMMAND"
 
@@ -57,7 +57,7 @@ Just in case you don't have it installed:
 ```
 
 
-#### 4. Inside the `python` file change the `"your_password"` to the actual password you want to set for the ecryption.
+#### 4. Inside the `python` file change the `"your_password"` to the actual password you want to set for the encryption.
 ```bash
   password = "your_password"  # Replace this with your own password
 ```
@@ -73,10 +73,10 @@ Just in case you don't have it installed:
 2. chmod ug+rx .bashrc
 ```
 
-## Decription of the file
+## Decryption of the file
 When the script is executed, a `.ENC` file will be placed in the `.terminal-keylogger` directory
 
-To decript the file use this and also replacing `THE-NAME-OF-YOUR-ENC-FILE` with the actual filename as well as `YOUR_PASSWORD`;
+To decrypt the file use this and also replacing `THE-NAME-OF-YOUR-ENC-FILE` with the actual filename as well as `YOUR_PASSWORD`;
 
 ```bash
 openssl aes-256-cbc -d -a -salt -pbkdf2 -in THE-NAME-OF-YOUR-ENC-FILE -out output_file.tar.gz -k YOUR_PASSWORD
@@ -85,19 +85,19 @@ openssl aes-256-cbc -d -a -salt -pbkdf2 -in THE-NAME-OF-YOUR-ENC-FILE -out outpu
 ### Deployment
 
 
-The best use-case of this script is to be deployed in an evironment with many systems and administrators. So I recommend and thus it would be difficult to install and setup one-by-one on every machine. Using something like Ansible as the mode of deployment would really help speed things up. 
+The best use-case of this script is to be deployed in an environment with many systems and administrators. So I recommend and thus it would be difficult to install and setup one-by-one on every machine. Using something like Ansible as the mode of deployment would really help speed things up. 
 
 Install Ansible - https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html
 ## Roadmap
 
 - Single Installer File
-- Systemwide Logging and Monitering
+- System-wide Logging and Monitoring
 - Error alerts to email/sms
 
 
 ## Lessons Learned
 
-Learned a lot of python, obviusly. But understood how scripts can communicate to the underlying shell.
+Learned a lot of python, obviously. But understood how scripts can communicate to the underlying shell.
 
 
 ## Authors
