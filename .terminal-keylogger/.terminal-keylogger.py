@@ -95,8 +95,8 @@ if __name__ == "__main__":
     # Remove the original tar archive
     os.remove(output_file)
 
-    print("___")
+    # print("___")
     
     
-    # Command To Decrypt - 
+    # Command To Decrypt
     # openssl aes-256-cbc -d -a -salt -pbkdf2 -in termkeys-attackvector99onsoren.md.tar.gz.enc -out output_file.md -k your_password
