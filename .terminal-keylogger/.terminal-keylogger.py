@@ -107,4 +107,4 @@ if __name__ == "__main__":
     # print('test')
     
     # Command To Decrypt
-    # openssl aes-256-cbc -d -a -salt -pbkdf2 -in termkeys-attackvector99onsoren.md.tar.gz.enc -out output_file.md -k your_password
+    # openssl aes-256-cbc -d -a -salt -pbkdf2 -in termkeys-{filename}md.enc -out output_file.md -k your_password
