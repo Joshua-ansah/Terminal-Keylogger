@@ -53,10 +53,10 @@ The `python` script will need execute permissions to work.
 sudo chmod +x .terminal-keylogger.py
 ```
 
-#### 4. Set your `password`
+#### 5. Set your `password`
 Open the `.terminal-keylogger.py` file with your prefered editor. Scroll to the bottom and change the `"your_password"` to the password you want to set for the ecryption.
 
-#### 5. Start the program
+#### 6. Start the program
 You only need to excute the script once and it will automatically start anytime you reboot your system.
 ```bash
 python3 .terminal-keylogger.py 
@@ -91,7 +91,7 @@ exit
 export PROMPT_COMMAND='history -a; bash /bin/.terminal-keylogger/.log_history.sh; python3 /bin/.terminal-keylogger/.terminal-keylogger.py;$PROMPT_COMMAND >> /bin/.terminal-keylogger/log_file.log 2>&1;'
 ```
 
-#### 6. You are all done!
+#### 7. You are all done!
 To confirm functionality, the script will create these files in the `/bin/.terminal-keylogger/`.
 ```bash
 1. .clean-keylogs.sh
